@@ -4,8 +4,9 @@
   "maxSupply": 210000000,
   "totalSupply": 210000000,
   "address": "MEANeD3XDdUmNMsRGjASkSWdC8prLYsoRJ61pPeHctD",
-  "circulatingSupply": 89547976.440632,
-  "marketCap": 20060179.490324616,
-  "marketCapFD": 47043360,
-  "date": "2022-07-13T20:56:39.027Z"
+  "circulatingSupply": 89547467.599436,
+  "marketCap": 20054692.653699286,
+  "marketCapFD": 47030760,
+  "lastUpdateUtc": "2022-07-13T21:27:07.856Z",
+  "version": "1.0.0"
 }
