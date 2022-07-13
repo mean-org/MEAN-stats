@@ -1,6 +1,5 @@
 import { Commitment, Connection, ConnectionConfig, Keypair, PublicKey, ConfirmOptions } from "@solana/web3.js";
 import { Program, Idl, Wallet, AnchorProvider } from "@project-serum/anchor";
-import { TokenInfo, TokenListProvider } from "@solana/spl-token-registry";
 import { fetch } from 'cross-fetch';
 
 //tokens prod
@@ -90,31 +89,6 @@ export const getCoinGeckoPrices = async (ids: { [k: string]: string }): Promise<
   const result = Object.assign({}, ...list.map((x: any) => ({ [x.id]: x.price })));
   return result;
 };
-
-export const getTokenList = async (includedTokens?: string[], excludedTokens?: string[]): Promise<TokenInfo[]> => {
-
-  if (includedTokens && excludedTokens) {
-    throw new Error("Can not pass both included and excluded token lists");
-  }
-
-  const res = await new TokenListProvider().resolve();
-  let resultTokenList = res
-    .filterByChainId(101)
-    .excludeByTag("nft")
-    .getList();
-
-  if (includedTokens) {
-    resultTokenList = resultTokenList
-      .filter(t => includedTokens.findIndex(a => a === t.address) >= 0);
-  }
-
-  if (excludedTokens) {
-    resultTokenList = resultTokenList
-      .filter(t => excludedTokens.findIndex(a => a === t.address) === -1);
-  }
-
-  return resultTokenList;
-}
 
 export const sleep = (ms: number, log: boolean = true) => {
   if (log) { console.log("Sleeping for", ms / 1000, "seconds"); }
