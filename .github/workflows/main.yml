@@ -3,6 +3,7 @@ name: Mean Stats
 on:
   schedule:
     - cron: "52 * * * *" # every hour @ minute 52
+  workflow_dispatch:
 
 jobs:
   build:
