@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { version } = require('./package.json');
 const { LockedTokens } = require('./lib/locked.tokens');
 const { MEAN_PUBKEY, getCoinGeckoPrices, MEAN_INFO } = require('./lib/utils/common');
 
@@ -40,7 +41,8 @@ const { MEAN_PUBKEY, getCoinGeckoPrices, MEAN_INFO } = require('./lib/utils/comm
         circulatingSupply,
         marketCap: (coinGeckoPrices[MEAN_PUBKEY.toString()] * circulatingSupply),
         marketCapFD: (coinGeckoPrices[MEAN_PUBKEY.toString()] * MEAN_INFO.totalSupply),
-        date: new Date().toISOString()
+        lastUpdateUtc: new Date().toISOString(),
+        version
     };
 
     console.log(result);
