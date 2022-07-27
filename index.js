@@ -51,9 +51,9 @@ const { MEAN_PUBKEY, getCoinGeckoPrices, MEAN_INFO, getTotalTvl } = require('./l
         circulatingSupply,
         marketCap: (coinGeckoPrices[MEAN_PUBKEY.toString()] * circulatingSupply),
         marketCapFD: (coinGeckoPrices[MEAN_PUBKEY.toString()] * MEAN_INFO.totalSupply),
+        tvl,
         lastUpdateUtc: new Date().toISOString(),
-        version,
-        tvl
+        version
     };
 
     console.log(result);
