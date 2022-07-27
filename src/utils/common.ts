@@ -68,7 +68,7 @@ export function createProgram<T extends Idl>(
 }
 
 export const getTotalTvl = async (): Promise<{ total: number, symbol: string, lastUpdateUtc: string }> => {
-  const res = await fetch(process.env.TOTAL_TVL_URL, { method: "GET" });
+  const res = await fetch((process.env.TOTAL_TVL_URL || 'http://localhost'), { method: "GET" });
   return await res.json();
 }
 
