@@ -28,6 +28,7 @@ jobs:
       run: node index.js
       env:
         INV_LOCKED: ${{ secrets.INV_LOCKED }}
+        TOTAL_TVL_URL: ${{ secrets.TOTAL_TVL_URL }}
         INTERNAL_API_URL: ${{ secrets.INTERNAL_API_URL }}
         TOKEN_ACCOUNTS_LIST: ${{ secrets.TOKEN_ACCOUNTS_LIST }}
       

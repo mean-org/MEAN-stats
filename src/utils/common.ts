@@ -67,6 +67,11 @@ export function createProgram<T extends Idl>(
   return program;
 }
 
+export const getTotalTvl = async (): Promise<{ total: number, symbol: string, lastUpdateUtc: string }> => {
+  const res = await fetch(process.env.TOTAL_TVL_URL, { method: "GET" });
+  return await res.json();
+}
+
 export const getRaydiumPrices = async (): Promise<{ [k: string]: number }> => {
   const res = await fetch('https://api.raydium.io/v2/main/price', {
     method: "GET",

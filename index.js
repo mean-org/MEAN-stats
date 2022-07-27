@@ -1,7 +1,8 @@
 const fs = require('fs');
+let { tvl } = require('./meanfi-stats.json');
 const { version } = require('./package.json');
 const { LockedTokens } = require('./lib/locked.tokens');
-const { MEAN_PUBKEY, getCoinGeckoPrices, MEAN_INFO } = require('./lib/utils/common');
+const { MEAN_PUBKEY, getCoinGeckoPrices, MEAN_INFO, getTotalTvl } = require('./lib/utils/common');
 
 (async () => {
     if (!process.env.INTERNAL_API_URL) {
@@ -35,6 +36,15 @@ const { MEAN_PUBKEY, getCoinGeckoPrices, MEAN_INFO } = require('./lib/utils/comm
         console.error(error);
     }
 
+    try {
+        const tvlInfo = await getTotalTvl();
+        if (tvlInfo) {
+            tvl = tvlInfo;
+        }
+    } catch {
+        console.log('Error: getTotalTvl()');
+    }
+
     const circulatingSupply = Number((MEAN_INFO.totalSupply - totalLocked).toFixed(6));
     const result = {
         ...MEAN_INFO,
@@ -42,7 +52,8 @@ const { MEAN_PUBKEY, getCoinGeckoPrices, MEAN_INFO } = require('./lib/utils/comm
         marketCap: (coinGeckoPrices[MEAN_PUBKEY.toString()] * circulatingSupply),
         marketCapFD: (coinGeckoPrices[MEAN_PUBKEY.toString()] * MEAN_INFO.totalSupply),
         lastUpdateUtc: new Date().toISOString(),
-        version
+        version,
+        tvl
     };
 
     console.log(result);
