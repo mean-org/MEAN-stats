@@ -20,6 +20,6 @@ jobs:
         with:
           args: >
             -Dsonar.verbose=false
-            -Dsonar.projectKey=mean-stats
+            -Dsonar.projectKey=meanfi-stats
             -Dsonar.sources=src/
 
