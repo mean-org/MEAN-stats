@@ -20,6 +20,6 @@ jobs:
         with:
           args: >
             -Dsonar.verbose=false
-            -Dsonar.projectKey=meanfi-stats
+            -Dsonar.projectKey=${{ github.event.repository.name }}
             -Dsonar.sources=src/
 
