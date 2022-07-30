@@ -1,6 +1,6 @@
 {
   "name": "meanfi-stats",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Meanfi Stats",
   "main": "index.js",
   "license": "MIT",
