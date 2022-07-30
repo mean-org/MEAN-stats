@@ -3,8 +3,6 @@ import fetch from 'cross-fetch';
 export class JupPriceApi {
     private baseUrl = 'https://price.jup.ag/v1';
     private apiHeaders = { "Accept": "application/json", "User-Agent": "MeanFi" };
-    constructor() {
-    }
 
     /**
      * Gets price of the token from Jupiter Price API (docs.jup.ag/jupiter-api/price-api-for-solana-beta).

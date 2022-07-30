@@ -55,7 +55,6 @@ export class LockedTokens {
                 if (meanPrice) {
                     balance = Number(sMeanPrice.marketCapFD) / meanPrice.priceUsdt;
                 }
-            } else {
             }
         } catch (error) {
             if (this.verbose) console.error('getStakedMeanTokens:ERROR:', error);

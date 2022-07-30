@@ -4,9 +4,6 @@ export class SolscanApi {
     private solScanApiBaseUrl = 'https://api.solscan.io';
     private solScanPublicApiBaseUrl = 'https://public-api.solscan.io';
     private solScanApiHeaders = { "Accept": "application/json", "User-Agent": "MeanFi" };
-    constructor() {
-
-    }
 
     /**
      * Gets metadata of the token from SolScan.
@@ -23,7 +20,7 @@ export class SolscanApi {
             });
             const result = await response.json();
             if (!result.address) {
-                throw `No metadata found for ${tokenAddress}`;
+                throw new Error(`No metadata found for ${tokenAddress}`);
             }
             return result as SolScanMetaInfo;
         } catch (error) {
@@ -47,7 +44,7 @@ export class SolscanApi {
             });
             const result = await response.json();
             if (!result.succcess) {
-                throw `No metadata found for ${tokenAddress}`;
+                throw new Error(`No metadata found for ${tokenAddress}`);
             }
             return result.data;
         } catch (error) {
@@ -73,7 +70,7 @@ export class SolscanApi {
             const result = await response.json();
 
             if (!result.priceUsdt) {
-                throw `No price found for ${tokenAddress}`;
+                throw new Error(`No price found for ${tokenAddress}`);
             }
             return result;
         } catch (error) {
@@ -96,7 +93,7 @@ export class SolscanApi {
             });
             const result = await response.json();
             if (!result.type) {
-                throw `No price found for ${accountAddress}`;
+                throw new Error(`No price found for ${accountAddress}`);
             }
             return result;
         } catch (error) {
