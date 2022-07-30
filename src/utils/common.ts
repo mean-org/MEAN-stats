@@ -48,11 +48,8 @@ export function createAnchorProvider(
   opts?: ConfirmOptions) {
 
   opts = opts || options;
-  const connection = new Connection(rpcUrl, opts.preflightCommitment);
-  const provider = new AnchorProvider(
-    connection, wallet, opts,
-  );
-  return provider;
+  const connection = new Connection(rpcUrl, opts?.preflightCommitment);
+  return new AnchorProvider(connection, wallet, opts);
 }
 
 export function createProgram<T extends Idl>(
@@ -63,13 +60,12 @@ export function createProgram<T extends Idl>(
   confirmOptions?: ConfirmOptions
 ): Program<T> {
   const provider = createAnchorProvider(rpcUrl, wallet, confirmOptions);
-  const program = new Program<T>(idl, programId, provider);
-  return program;
+  return new Program<T>(idl, programId, provider);
 }
 
 export const getTotalTvl = async (): Promise<{ total: number, symbol: string, lastUpdateUtc: string }> => {
   const res = await fetch((process.env.TOTAL_TVL_URL || 'http://localhost'), { method: "GET" });
-  return await res.json();
+  return res.json();
 }
 
 export const getRaydiumPrices = async (): Promise<{ [k: string]: number }> => {
@@ -91,8 +87,7 @@ export const getCoinGeckoPrices = async (ids: { [k: string]: string }): Promise<
       price: data[x].usd
     }
   });
-  const result = Object.assign({}, ...list.map((x: any) => ({ [x.id]: x.price })));
-  return result;
+  return Object.assign({}, ...list.map((x: any) => ({ [x.id]: x.price })));
 };
 
 export const sleep = (ms: number, log: boolean = true) => {

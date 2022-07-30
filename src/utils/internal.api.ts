@@ -12,9 +12,7 @@ export class InternalApi {
                     ...this.apiHeaders
                 }
             });
-            const result = await response.json();
-
-            return result;
+            return response.json();
         } catch (error) {
             return null;
         }
