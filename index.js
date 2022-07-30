@@ -45,10 +45,18 @@ const { MEAN_PUBKEY, getCoinGeckoPrices, MEAN_INFO, getTotalTvl } = require('./l
         console.log('Error: getTotalTvl()');
     }
 
+    let totalHolders = 0;
+    try {
+        totalHolders = await locked.getTotalTokenHolders(MEAN_PUBKEY.toString());
+    } catch (error) {
+        console.log(error);
+    }
+
     const circulatingSupply = Number((MEAN_INFO.totalSupply - totalLocked).toFixed(6));
     const result = {
         ...MEAN_INFO,
         circulatingSupply,
+        holders: totalHolders > 0 ? totalHolders : undefined,
         marketCap: (coinGeckoPrices[MEAN_PUBKEY.toString()] * circulatingSupply),
         marketCapFD: (coinGeckoPrices[MEAN_PUBKEY.toString()] * MEAN_INFO.totalSupply),
         tvl,

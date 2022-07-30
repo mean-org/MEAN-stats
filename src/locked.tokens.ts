@@ -1,7 +1,6 @@
-import { IDL } from '@mean-dao/msp';
-import { Program } from "@project-serum/anchor";
-import { clusterApiUrl, Connection, GetProgramAccountsFilter, ParsedAccountData, PublicKey } from "@solana/web3.js";
-import { MSP_ID, normalizeTokenAmount, SMEAN_PUBKEY, InternalApi, SolscanApi, MEAN_PUBKEY } from "./utils";
+import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
+import { clusterApiUrl, Connection, ParsedAccountData, PublicKey } from "@solana/web3.js";
+import { normalizeTokenAmount, SMEAN_PUBKEY, InternalApi, SolscanApi, MEAN_PUBKEY } from "./utils";
 
 export class LockedTokens {
     private rpcUrl: string;
@@ -96,5 +95,23 @@ export class LockedTokens {
 
         }
         return balance;
+    }
+
+    async getTotalTokenHolders(tokenAddress: string): Promise<number> {
+        const accountInfos = await this.connection.getParsedProgramAccounts(TOKEN_PROGRAM_ID, {
+            filters: [
+                {
+                    memcmp: { offset: 0, bytes: tokenAddress },
+                },
+                {
+                    dataSize: 165
+                }
+            ],
+        });
+
+        const results = accountInfos
+            .filter(i => (i.account.data as ParsedAccountData).parsed.info.tokenAmount.uiAmount > 0);
+
+        return results.length;
     }
 }
