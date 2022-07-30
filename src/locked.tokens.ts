@@ -65,10 +65,8 @@ export class LockedTokens {
     async getTokensAccountsBalance(): Promise<number> {
         let balance = 0;
         try {
-            for (let i = 0; i < this.tokenAccounts.length; i++) {
-                const token = this.tokenAccounts[i];
+            for (const token of this.tokenAccounts) {
                 const accountInfo = await this.connection.getParsedAccountInfo(token);
-
                 const { mint, tokenAmount: { amount, decimals } } = (accountInfo.value?.data as ParsedAccountData).parsed.info;
                 if (this.tokenAddress.equals(new PublicKey(mint))) {
                     const amountNormalized = normalizeTokenAmount(amount, decimals);
