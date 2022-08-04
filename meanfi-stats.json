@@ -1,19 +1,19 @@
 {
   "symbol": "MEAN",
-  "name": "MeanFi",
+  "name": "Mean Finance",
   "maxSupply": 210000000,
   "totalSupply": 210000000,
   "address": "MEANeD3XDdUmNMsRGjASkSWdC8prLYsoRJ61pPeHctD",
-  "circulatingSupply": 91916547.708667,
-  "holders": 12105,
-  "marketCap": 18925341.423571408,
-  "marketCapFD": 43238370,
+  "circulatingSupply": 91916663.928433,
+  "holders": 12104,
+  "marketCap": 18923159.352938287,
+  "marketCapFD": 43233330,
   "tvl": {
     "symbol": "USD",
     "total": 44018043.61000001,
     "lastUpdateUtc": "2022-08-04T16:35:49.009Z",
     "totalStreams": 52918
   },
-  "lastUpdateUtc": "2022-08-04T19:56:26.054Z",
+  "lastUpdateUtc": "2022-08-04T20:09:13.881Z",
   "version": "1.0.2"
 }
