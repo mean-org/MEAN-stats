@@ -6,7 +6,7 @@ import { fetch } from 'cross-fetch';
 export const MEAN_PUBKEY = new PublicKey("MEANeD3XDdUmNMsRGjASkSWdC8prLYsoRJ61pPeHctD");
 export const MEAN_INFO = {
   symbol: "MEAN",
-  name: "MeanFi",
+  name: "Mean Finance",
   maxSupply: 210_000_000,
   totalSupply: 210_000_000,
   address: MEAN_PUBKEY.toString()
