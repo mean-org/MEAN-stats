@@ -5,15 +5,15 @@
   "totalSupply": 210000000,
   "address": "MEANeD3XDdUmNMsRGjASkSWdC8prLYsoRJ61pPeHctD",
   "circulatingSupply": 96814412.49562,
-  "holders": 11928,
-  "marketCap": 16152129.323119259,
-  "marketCapFD": 35035560,
+  "holders": 11929,
+  "marketCap": 16227547.750453344,
+  "marketCapFD": 35199150,
   "tvl": {
     "symbol": "USD",
     "total": 33125476.130000003,
     "lastUpdateUtc": "2022-08-29T12:38:09.576Z",
     "totalStreams": 52922
   },
-  "lastUpdateUtc": "2022-08-29T14:01:47.717Z",
+  "lastUpdateUtc": "2022-08-29T14:56:18.750Z",
   "version": "1.0.2"
 }
