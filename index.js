@@ -1,5 +1,6 @@
+const fileName = 'mean-stats.json';
 const fs = require('fs');
-let { tvl } = require('./meanfi-stats.json');
+let { tvl } = require(`./${fileName}`);
 const { version } = require('./package.json');
 const { LockedTokens } = require('./lib/locked.tokens');
 const { MEAN_PUBKEY, getCoinGeckoPrices, MEAN_INFO, getTotalTvl } = require('./lib/utils/common');
@@ -65,5 +66,5 @@ const { MEAN_PUBKEY, getCoinGeckoPrices, MEAN_INFO, getTotalTvl } = require('./l
     };
 
     console.log(result);
-    fs.writeFileSync('./meanfi-stats.json', JSON.stringify(result, null, 2), { encoding: 'utf8' });
+    fs.writeFileSync(`./${fileName}`, JSON.stringify(result, null, 2), { encoding: 'utf8' });
 })();

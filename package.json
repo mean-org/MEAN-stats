@@ -1,7 +1,7 @@
 {
-  "name": "meanfi-stats",
-  "version": "1.0.2",
-  "description": "Meanfi Stats",
+  "name": "mean-stats",
+  "version": "2.0.0",
+  "description": "MEAN Stats",
   "main": "index.js",
   "license": "MIT",
   "private": true,
