@@ -24,6 +24,7 @@ jobs:
             -Dsonar.verbose=false
             -Dsonar.projectKey=${{ github.event.repository.name }}
             -Dsonar.sources=.
+            -Dsonar.exclusions=lib/**
                 
       # Check the Quality Gate status.
       - name: SonarQube Quality Gate check
