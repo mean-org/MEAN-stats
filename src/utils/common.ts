@@ -2,6 +2,9 @@ import { Commitment, Connection, ConnectionConfig, Keypair, PublicKey, ConfirmOp
 import { Program, Idl, Wallet, AnchorProvider } from "@project-serum/anchor";
 import { fetch } from 'cross-fetch';
 
+export const INVESTORS_TOKEN_LOCKS_ACCOUNT_PUBKEY = new PublicKey("4CUSb4s7T9VTfv6Ti9EFEqiiZJbV3ZpXhNTYiYMveVZW");
+export const UNRELEASED_TOKENS_ACCOUNT_PUBKEY = new PublicKey("GNHnU2infXYKu1HvDfNWrpNFNwz8CubrudVNgTZz8LSf");
+
 //tokens prod
 export const MEAN_PUBKEY = new PublicKey("MEANeD3XDdUmNMsRGjASkSWdC8prLYsoRJ61pPeHctD");
 export const MEAN_INFO = {
