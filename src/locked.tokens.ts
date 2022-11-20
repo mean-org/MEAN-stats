@@ -1,10 +1,11 @@
 import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
-import { clusterApiUrl, Connection, ParsedAccountData, PublicKey } from "@solana/web3.js";
+import { AccountInfo, clusterApiUrl, Connection, ParsedAccountData, PublicKey } from "@solana/web3.js";
 import {
     INVESTORS_TOKEN_LOCKS_ACCOUNT_PUBKEY,
     UNRELEASED_TOKENS_ACCOUNT_PUBKEY,
     findATokenAddress,
-    getTokenAccountBalanceByAddress
+    getTokenAccountBalanceByAddress,
+    normalizeTokenAmount
 } from "./utils";
 
 export class LockedTokens {
@@ -20,6 +21,26 @@ export class LockedTokens {
         this.verbose = verbose;
     }
 
+    async getCurrentTokenSupply(): Promise<number> {
+        let accInfo: AccountInfo<Buffer | ParsedAccountData> | null = null;
+
+        console.log('Fetching current token supply...');
+        try {
+            accInfo = (
+                await this.connection.getParsedAccountInfo(this.tokenAddress)
+            ).value;
+        } catch (error) {
+            console.error('getCurrentTokenSupply:ERROR:', error);
+        }
+        if (accInfo) {
+            const data = (accInfo as AccountInfo<ParsedAccountData>).data;
+            if (data.parsed) {
+                return normalizeTokenAmount(data.parsed.info.supply, data.parsed.info.decimals);
+            }
+        }
+        return 0;
+    }
+
     async getLockedTokensAmount(): Promise<number> {
         let balance = 0;
 
@@ -30,7 +51,6 @@ export class LockedTokens {
                 this.connection,
                 meanTokenAddress,
             );
-            console.log('accountBalance <TokenAmount | null>:', result);
             if (result) {
                 balance = result.uiAmount || 0;
             }
@@ -53,7 +73,6 @@ export class LockedTokens {
                 this.connection,
                 meanTokenAddress,
             );
-            console.log('accountBalance <TokenAmount | null>:', result);
             if (result) {
                 balance = result.uiAmount || 0;
             }
@@ -67,6 +86,7 @@ export class LockedTokens {
     }
 
     async getTotalTokenHolders(tokenAddress: string): Promise<number> {
+        console.log('Fetching token holders...');
         const accountInfos = await this.connection.getParsedProgramAccounts(TOKEN_PROGRAM_ID, {
             filters: [
                 {
