@@ -50,8 +50,8 @@ const { MEAN_PUBKEY, getCoinGeckoPrices, MEAN_INFO, getTotalTvl, sleep } = requi
         if (tvlInfo) {
             tvl = tvlInfo;
         }
-    } catch {
-        console.log('Error: getTotalTvl()');
+    } catch (error) {
+        console.log('Error: getTotalTvl() ->', error);
     }
 
     const circulatingSupply = Number((MEAN_INFO.totalSupply - unreleasedTokens - totalLocked).toFixed(6));

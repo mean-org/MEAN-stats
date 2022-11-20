@@ -17,7 +17,8 @@
   "dependencies": {
     "@mean-dao/msp": "^2.5.3",
     "@project-serum/anchor": "^0.25.0",
-    "@solana/web3.js": "^1.47.3",
+    "@solana/spl-token": "^0.3.6",
+    "@solana/web3.js": "^1.61",
     "cross-fetch": "^3.1.5",
     "dayjs": "^1.11.3",
     "rimraf": "^3.0.2"
