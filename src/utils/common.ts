@@ -1,4 +1,5 @@
-import { Commitment, Connection, ConnectionConfig, Keypair, PublicKey, ConfirmOptions } from "@solana/web3.js";
+import { Commitment, Connection, ConnectionConfig, Keypair, PublicKey, ConfirmOptions, TokenAmount } from "@solana/web3.js";
+import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { Program, Idl, Wallet, AnchorProvider } from "@project-serum/anchor";
 import { fetch } from 'cross-fetch';
 
@@ -67,7 +68,7 @@ export function createProgram<T extends Idl>(
 }
 
 export const getTotalTvl = async (): Promise<{ total: number, symbol: string, lastUpdateUtc: string }> => {
-  const res = await fetch((process.env.TOTAL_TVL_URL || 'http://localhost'), { method: "GET" });
+  const res = await fetch((process.env.TOTAL_TVL_URL || 'http://localhost:3000'), { method: "GET" });
   return res.json();
 }
 
@@ -107,3 +108,33 @@ export function normalizeTokenAmount(
   else rawTokens = raw;
   return rawTokens / Math.pow(10, decimals);
 }
+
+export async function findATokenAddress(
+  walletAddress: PublicKey,
+  tokenMintAddress: PublicKey,
+): Promise<PublicKey> {
+  return (
+    await PublicKey.findProgramAddress(
+      [
+        walletAddress.toBuffer(),
+        TOKEN_PROGRAM_ID.toBuffer(),
+        tokenMintAddress.toBuffer(),
+      ],
+      ASSOCIATED_TOKEN_PROGRAM_ID,
+    )
+  )[0];
+}
+
+export const getTokenAccountBalanceByAddress = async (
+  connection: Connection,
+  tokenAddress: PublicKey | undefined | null,
+): Promise<TokenAmount | null> => {
+  if (!connection || !tokenAddress) return null;
+  try {
+    const tokenAmount = (await connection.getTokenAccountBalance(tokenAddress)).value;
+    return tokenAmount;
+  } catch (error) {
+    console.error(`getTokenAccountBalance failed for: ${tokenAddress.toBase58()}`, error);
+    return null;
+  }
+};

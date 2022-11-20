@@ -1,9 +1,10 @@
 import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 import { clusterApiUrl, Connection, ParsedAccountData, PublicKey } from "@solana/web3.js";
 import {
-    normalizeTokenAmount,
     INVESTORS_TOKEN_LOCKS_ACCOUNT_PUBKEY,
-    UNRELEASED_TOKENS_ACCOUNT_PUBKEY
+    UNRELEASED_TOKENS_ACCOUNT_PUBKEY,
+    findATokenAddress,
+    getTokenAccountBalanceByAddress
 } from "./utils";
 
 export class LockedTokens {
@@ -22,35 +23,47 @@ export class LockedTokens {
     async getLockedTokensAmount(): Promise<number> {
         let balance = 0;
 
+        console.log('Fetching locked tokens amount...');
         try {
-            const accountInfo = await this.connection.getParsedAccountInfo(INVESTORS_TOKEN_LOCKS_ACCOUNT_PUBKEY);
-            const { mint, tokenAmount: { amount, decimals } } = (accountInfo.value?.data as ParsedAccountData).parsed.info;
-            if (this.tokenAddress.equals(new PublicKey(mint))) {
-                const amountNormalized = normalizeTokenAmount(amount, decimals);
-                balance += amountNormalized;
+            const meanTokenAddress = await findATokenAddress(INVESTORS_TOKEN_LOCKS_ACCOUNT_PUBKEY, this.tokenAddress);
+            const result = await getTokenAccountBalanceByAddress(
+                this.connection,
+                meanTokenAddress,
+            );
+            console.log('accountBalance <TokenAmount | null>:', result);
+            if (result) {
+                balance = result.uiAmount || 0;
             }
+            return balance;
         } catch (error) {
-            if (this.verbose) console.error('getLockedTokensAmount:ERROR:', error);
+            if (this.verbose) {
+                console.error('getLockedTokensAmount:ERROR:', error);
+            }
+            return balance;
         }
-
-        return balance;
     }
 
     async getUnreleasedTokensAmount(): Promise<number> {
         let balance = 0;
 
+        console.log('Fetching unreleased tokens amount...');
         try {
-            const accountInfo = await this.connection.getParsedAccountInfo(UNRELEASED_TOKENS_ACCOUNT_PUBKEY);
-            const { mint, tokenAmount: { amount, decimals } } = (accountInfo.value?.data as ParsedAccountData).parsed.info;
-            if (this.tokenAddress.equals(new PublicKey(mint))) {
-                const amountNormalized = normalizeTokenAmount(amount, decimals);
-                balance += amountNormalized;
+            const meanTokenAddress = await findATokenAddress(UNRELEASED_TOKENS_ACCOUNT_PUBKEY, this.tokenAddress);
+            const result = await getTokenAccountBalanceByAddress(
+                this.connection,
+                meanTokenAddress,
+            );
+            console.log('accountBalance <TokenAmount | null>:', result);
+            if (result) {
+                balance = result.uiAmount || 0;
             }
+            return balance;
         } catch (error) {
-            if (this.verbose) console.error('getUnreleasedTokensAmount:ERROR:', error);
+            if (this.verbose) {
+                console.error('getUnreleasedTokensAmount:ERROR:', error);
+            }
+            return balance;
         }
-
-        return balance;
     }
 
     async getTotalTokenHolders(tokenAddress: string): Promise<number> {
