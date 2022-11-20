@@ -10,31 +10,35 @@ const { MEAN_PUBKEY, getCoinGeckoPrices, MEAN_INFO, getTotalTvl, sleep } = requi
         console.log('INTERNAL_API_URL is needed.');
         return 1;
     }
-    const twoSeconds = 2 * 1000;
+    const halfSecond = 500;
     const rpcUrl = process.env.RPC_URL || 'https://api.mainnet-beta.solana.com';
     const coinGeckoPrices = await getCoinGeckoPrices({ 'meanfi': MEAN_PUBKEY.toString() });
 
-    let totalLocked = 0;
-    let unreleasedTokens = 0;
     const locked = new LockedTokens(MEAN_PUBKEY, rpcUrl);
 
+    let supply = 0;
+    let totalLocked = 0;
+    let unreleasedTokens = 0;
     let totalHolders = 0;
+
     try {
-        totalHolders = await locked.getTotalTokenHolders(MEAN_PUBKEY.toString());
-        console.log('totalHolders:', totalHolders);
+        const currentSupply = await locked.getCurrentTokenSupply();
+        console.log('currentSupply:', currentSupply);
+        supply = currentSupply;
     } catch (error) {
-        console.log(error);
-    }
-    finally {
-        await sleep(twoSeconds);
+        console.error(error);
+    } finally {
+        await sleep(halfSecond);
     }
 
     try {
         const lockedTokens = await locked.getLockedTokensAmount();
         console.log('lockedTokens:', lockedTokens);
-        totalLocked += lockedTokens;
+        totalLocked = lockedTokens;
     } catch (error) {
         console.error(error);
+    } finally {
+        await sleep(halfSecond);
     }
 
     try {
@@ -43,6 +47,17 @@ const { MEAN_PUBKEY, getCoinGeckoPrices, MEAN_INFO, getTotalTvl, sleep } = requi
         unreleasedTokens = unreleasedAmount;
     } catch (error) {
         console.error(error);
+    } finally {
+        await sleep(halfSecond);
+    }
+
+    try {
+        totalHolders = await locked.getTotalTokenHolders(MEAN_PUBKEY.toString());
+        console.log('totalHolders:', totalHolders);
+    } catch (error) {
+        console.log(error);
+    } finally {
+        await sleep(halfSecond);
     }
 
     try {
@@ -54,7 +69,9 @@ const { MEAN_PUBKEY, getCoinGeckoPrices, MEAN_INFO, getTotalTvl, sleep } = requi
         console.log('Error: getTotalTvl() ->', error);
     }
 
-    const circulatingSupply = Number((MEAN_INFO.totalSupply - unreleasedTokens - totalLocked).toFixed(6));
+    // Use current token supply to calculate circulating supply - use totall supply as fallback value
+    const currentSupply = supply || MEAN_INFO.totalSupply;
+    const circulatingSupply = Number((currentSupply - unreleasedTokens - totalLocked).toFixed(6));
     const result = {
         ...MEAN_INFO,
         circulatingSupply,
