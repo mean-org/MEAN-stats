@@ -5,14 +5,14 @@
   "totalSupply": 210000000,
   "address": "MEANeD3XDdUmNMsRGjASkSWdC8prLYsoRJ61pPeHctD",
   "circulatingSupply": 97280347.937363,
-  "marketCap": 3087171.412919148,
-  "marketCapFD": 6664305.899999999,
+  "marketCap": 3032664.261166364,
+  "marketCapFD": 6546640.8,
   "tvl": {
     "symbol": "USD",
     "total": 9382003.58,
     "lastUpdateUtc": "2023-01-12T16:50:20.848Z",
     "totalStreams": 53155
   },
-  "lastUpdateUtc": "2023-01-12T17:17:39.858Z",
+  "lastUpdateUtc": "2023-01-12T17:56:20.621Z",
   "version": "2.0.2"
 }
