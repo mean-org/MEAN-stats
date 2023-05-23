@@ -9,10 +9,10 @@
   "marketCapFD": null,
   "tvl": {
     "symbol": "USD",
-    "total": 7509585.5,
-    "lastUpdateUtc": "2023-05-23T00:56:37.198Z",
+    "total": 7555618.089999999,
+    "lastUpdateUtc": "2023-05-23T04:56:38.455Z",
     "totalStreams": 53375
   },
-  "lastUpdateUtc": "2023-05-23T04:56:04.509Z",
+  "lastUpdateUtc": "2023-05-23T05:56:19.900Z",
   "version": "2.0.2"
 }
